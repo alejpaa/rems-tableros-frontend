@@ -1,13 +1,16 @@
+import { appColors } from '@/theme/colors';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { appColors } from '@/theme/colors';
-
 export const unstable_settings = {
   anchor: '(tabs)',
 };
+
+// React Query client
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const navTheme = {
@@ -26,12 +29,14 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={navTheme}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider value={navTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style={statusBarStyle} />
       </ThemeProvider>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }

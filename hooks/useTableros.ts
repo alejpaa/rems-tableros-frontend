@@ -1,39 +1,54 @@
-// src/hooks/useBoards.ts
-import { deleteBoard, getBoards } from "@/api/tableros.service";
-import { useEffect, useState } from "react";
+import {
+  createBoard,
+  deleteBoard,
+  getBoards,
+  updateBoard,
+  type CreateTableroDto,
+  type UpdateTableroDto,
+} from '@/api/tableros.service';
+import type { Tablero } from '@/types/tablero';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const useBoards = () => {
-  const [boards, setBoards] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const TABLEROS_QUERY_KEY = ['tableros'];
 
-  const fetchBoards = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await getBoards();
-      setBoards(data);
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+export const useTableros = () => {
+  const queryClient = useQueryClient();
 
-  const removeBoard = async (id: number) => {
-    await deleteBoard(id);
-    fetchBoards();
-  };
+  const boardsQuery = useQuery<Tablero[], Error>({
+    queryKey: TABLEROS_QUERY_KEY,
+    queryFn: getBoards,
+    staleTime: 1000 * 60, // 1 minuto
+  });
 
-  useEffect(() => {
-    fetchBoards();
-  }, []);
+  const invalidateBoards = () =>
+    queryClient.invalidateQueries({ queryKey: TABLEROS_QUERY_KEY });
+
+  const createMutation = useMutation<Tablero, Error, CreateTableroDto>({
+    mutationFn: payload => createBoard(payload),
+    onSuccess: invalidateBoards,
+  });
+
+  const updateMutation = useMutation<Tablero, Error, { id: string | number; data: UpdateTableroDto }>({
+    mutationFn: ({ id, data }) => updateBoard(id, data),
+    onSuccess: invalidateBoards,
+  });
+
+  const deleteMutation = useMutation<boolean, Error, string | number>({
+    mutationFn: id => deleteBoard(id),
+    onSuccess: invalidateBoards,
+  });
 
   return {
-    boards,
-    loading,
-    error,
-    refresh: fetchBoards,
-    removeBoard,
+    boards: boardsQuery.data ?? [],
+    loading: boardsQuery.isFetching,
+    error: boardsQuery.error?.message ?? null,
+    refresh: boardsQuery.refetch,
+    createBoard: (payload: CreateTableroDto) => createMutation.mutateAsync(payload),
+    creating: createMutation.isPending,
+    updateBoard: (id: string | number, data: UpdateTableroDto) =>
+      updateMutation.mutateAsync({ id, data }),
+    updating: updateMutation.isPending,
+    removeBoard: (id: string | number) => deleteMutation.mutateAsync(id),
+    removing: deleteMutation.isPending,
   };
 };

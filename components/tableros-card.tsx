@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import React from 'react';
 import { Text, TouchableOpacity, View, type TouchableOpacityProps } from 'react-native';
 
-export type Board = {
+export type Tablero = {
   id: string;
   nombre: string;
   ubicacion: string;
@@ -14,7 +14,7 @@ export type Board = {
 };
 
 type BoardCardProps = {
-  board: Board;
+  board: Tablero;
   onEdit: () => void;
   onDelete: () => void;
 };

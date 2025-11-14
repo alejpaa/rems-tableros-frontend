@@ -1,24 +1,28 @@
 import { Screen } from '@/components/Screen';
-import { BoardCard, type Board } from '@/components/tableros-card';
-import { useBoards } from '@/hooks/useTableros';
+import { BoardCard } from '@/components/tableros-card';
+import { useTableros } from '@/hooks/useTableros';
+import { type Tablero } from '@/types/tablero';
+import { useRouter } from 'expo-router';
 import {
   ActivityIndicator,
   Alert,
-  FlatList, // 1. Importamos FlatList
+  FlatList,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 
 export default function Tableros() {
-  const { boards, loading, error, refresh } = useBoards();
+  const router = useRouter();
+  const { boards, loading, error, refresh, removeBoard } = useTableros();
 
-  const handleEdit = (board: Board) => {
-    Alert.alert('Editar tablero', `Abrir flujo de edición para "${board.nombre}".`);
+  const handleEdit = (board: Tablero) => {
+    router.push(`/editar-tablero/${board.id}`);
   };
 
-  const handleDelete = (board: Board) => {
+  const handleDelete = (board: Tablero) => {
     Alert.alert('Eliminar tablero', `Confirmar eliminación de "${board.nombre}".`);
+    removeBoard(board.id)
   };
 
   // --- Loading state ( ---
@@ -42,7 +46,7 @@ export default function Tableros() {
 
           <TouchableOpacity
             className="bg-blue-600 py-2 px-6 rounded-lg"
-            onPress={refresh}
+            onPress={async () => await refresh()}
           >
             <Text className="text-white font-medium">Reintentar</Text>
           </TouchableOpacity>
@@ -57,9 +61,8 @@ export default function Tableros() {
       <FlatList
         data={boards}
         // keyExtractor es crucial para el rendimiento
-        keyExtractor={(item: Board) => item.id.toString()}
+        keyExtractor={(item: Tablero) => item.id.toString()}
         
-        // renderItem reemplaza la lógica de .map()
         renderItem={({ item }) => (
           <BoardCard
             board={item}

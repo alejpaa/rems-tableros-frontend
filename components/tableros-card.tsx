@@ -4,9 +4,13 @@ import { Text, TouchableOpacity, View, type TouchableOpacityProps } from 'react-
 
 export type Board = {
   id: string;
-  name: string;
-  location: string;
-  description?: string;
+  nombre: string;
+  ubicacion: string;
+  marca: string;
+  capacidad_amperios: number;
+  estado: string;
+  ano_fabricacion: number;
+  ano_instalacion: number;
 };
 
 type BoardCardProps = {
@@ -27,11 +31,8 @@ export const BoardCard = ({ board, onEdit, onDelete }: BoardCardProps) => {
   return (
     <View className="rounded-xl bg-background-card p-5 shadow-md">
       <View className="gap-1">
-        <Text className="text-lg font-bold text-text-title">{board.name}</Text>
-        <Text className="text-sm text-text-muted">{board.location}</Text>
-        {board.description ? (
-          <Text className="text-sm leading-5 text-text-body">{board.description}</Text>
-        ) : null}
+        <Text className="text-lg font-bold text-text-title">{board.nombre}</Text>
+        <Text className="text-sm text-text-muted">{board.ubicacion}</Text>
       </View>
 
         {/* Seccion Botones */}

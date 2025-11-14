@@ -13,7 +13,14 @@ export default function TabLayout() {
   return (
     <Tabs
       tabBar={(props) => (
-        <View className="pb-6">
+        <View style={{
+            // 1. Posicionamiento absoluto
+            position: 'absolute',
+            bottom: 24,
+            left: 0,
+            right: 0,
+            alignItems: 'center',
+          }}>
           <View
             style={{
               alignSelf: 'center',
@@ -54,7 +61,7 @@ export default function TabLayout() {
           marginTop: -2
         },
         tabBarIconStyle: {
-          marginTop: 4, // <-- Empuja el ícono (y el texto) hacia abajo
+          marginTop: 4,
         },
         headerShown: false,
         tabBarButton: HapticTab,

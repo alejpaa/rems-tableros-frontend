@@ -22,3 +22,18 @@ export const deleteBoard = async (id: number) => {
 
   return true;
 };
+
+export const createBoard = async (boardData: any) => {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(boardData),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(text || 'Error al crear tablero');
+  }
+
+  return await response.json();
+};

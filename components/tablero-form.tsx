@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import type { Tablero } from '@/types/tablero';
 
@@ -107,8 +107,15 @@ export const TableroForm = ({
     });
   };
 
-  return (
-    <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
+  return ( 
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+    <ScrollView 
+    className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}
+    keyboardShouldPersistTaps="handled"
+    >
       {title ? (
         <Text className="text-3xl font-bold text-text-title mb-6">{title}</Text>
       ) : null}
@@ -186,6 +193,8 @@ export const TableroForm = ({
         <Text className="text-danger mt-4 text-center">{error}</Text>
       ) : null}
     </ScrollView>
+  </KeyboardAvoidingView>
+    
   );
 };
 

@@ -18,7 +18,7 @@ export default function CrearTablero() {
   const handleSave = async (values: TableroFormSubmitPayload) => {
     try {
       await submit(values);
-      Alert.alert('Éxito', 'Tablero creado correctamente');
+      Alert.alert('Éxito', 'Tablero Electrico creado correctamente');
       setFormKey((prevKey) => prevKey + 1);
       router.push('/(tabs)/tableros');
     } catch (e: any) {
@@ -30,7 +30,7 @@ export default function CrearTablero() {
     <Screen>
       <TableroForm
         key={formKey}
-        title="Crear Tablero"
+        title="Crear Tablero Electrico"
         submitLabel="Guardar"
         loading={loading}
         error={error}

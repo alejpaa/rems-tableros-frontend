@@ -5,7 +5,7 @@ import {
   TableroForm,
   type TableroFormSubmitPayload,
 } from '@/components/tablero-form';
-import { useCreateBoard } from '@/hooks/useCrearTableros';
+import { useTableros } from '@/hooks/useTableros';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert } from 'react-native';
@@ -13,12 +13,12 @@ import { Alert } from 'react-native';
 export default function CrearTablero() {
   const router = useRouter();
   const [formKey, setFormKey] = useState(0);
-  const { submit, loading, error } = useCreateBoard();
+  const { createBoard, creating } = useTableros();
 
   const handleSave = async (values: TableroFormSubmitPayload) => {
     try {
-      await submit(values);
-      Alert.alert('Éxito', 'Tablero Electrico creado correctamente');
+      await createBoard(values);
+      Alert.alert('Éxito', 'Tablero Eléctrico creado correctamente');
       setFormKey((prevKey) => prevKey + 1);
       router.push('/(tabs)/tableros');
     } catch (e: any) {
@@ -30,10 +30,10 @@ export default function CrearTablero() {
     <Screen>
       <TableroForm
         key={formKey}
-        title="Crear Tablero Electrico"
+        title="Crear Tablero Eléctrico"
         submitLabel="Guardar"
-        loading={loading}
-        error={error}
+        loading={creating}
+        error={null}
         onSubmit={handleSave}
       />
     </Screen>

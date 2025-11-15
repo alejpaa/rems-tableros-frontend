@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "rems-tableros-frontend",
-    "slug": "rems-tableros-frontend",
+    "name": "Tableros crud",
+    "slug": "tableros-crud",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "remstablerosfrontend",
+    "scheme": "tableros-crud",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

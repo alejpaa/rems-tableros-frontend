@@ -14,7 +14,7 @@ export default function EditarTableroScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id?: string | string[] }>();
   const tableroId = Array.isArray(params.id) ? params.id[0] : params.id;
-  const { updateBoard, updating ,refresh} = useTableros();
+  const { updateBoard, updating } = useTableros();
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const tableroQuery = useQuery<Tablero, Error>({
@@ -33,7 +33,6 @@ export default function EditarTableroScreen() {
       setSubmitError(null);
       await updateBoard(tableroId, values);
       Alert.alert('Éxito', 'Tablero actualizado correctamente');
-      refresh();
       router.back();
     } catch (error) {
       const message =

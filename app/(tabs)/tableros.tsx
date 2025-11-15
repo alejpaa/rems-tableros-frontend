@@ -1,8 +1,10 @@
+import { ConfirmDeleteModal } from '@/components/confirm-delete-modal';
 import { Screen } from '@/components/Screen';
 import { BoardCard } from '@/components/tableros-card';
 import { useTableros } from '@/hooks/useTableros';
 import { type Tablero } from '@/types/tablero';
 import { useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -15,14 +17,38 @@ import {
 export default function Tableros() {
   const router = useRouter();
   const { boards, loading, error, refresh, removeBoard } = useTableros();
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [boardToDelete, setBoardToDelete] = useState<Tablero | null>(null);
 
-  const handleEdit = (board: Tablero) => {
+  const handleEdit = useCallback((board: Tablero) => {
     router.push(`/editar-tablero/${board.id}`);
-  };
+  }, [router]);
 
-  const handleDelete = (board: Tablero) => {
-    Alert.alert('Eliminar tablero', `Confirmar eliminación de "${board.nombre}".`);
-    removeBoard(board.id)
+  const handleDelete = useCallback((board: Tablero) => {
+    setBoardToDelete(board);
+    setDeleteModalVisible(true);
+  }, []);
+
+  const handleViewDetails = useCallback((board: Tablero) => {
+    router.push(`/detalle-tablero/${board.id}`);
+  },[router]);
+
+const confirmDelete = async () => {
+  if (boardToDelete) {
+    try {
+      await removeBoard(boardToDelete.id);
+    } catch {
+      Alert.alert("Error", "No se pudo eliminar el tablero");
+    }
+  }
+
+  setDeleteModalVisible(false);
+  setBoardToDelete(null);
+};
+
+  const cancelDelete = () => {
+    setDeleteModalVisible(false);
+    setBoardToDelete(null);
   };
 
   // --- Loading state ( ---
@@ -58,6 +84,14 @@ export default function Tableros() {
   // --- 2. Success state ---
   return (
     <Screen>
+      <ConfirmDeleteModal
+        visible={deleteModalVisible}
+        title="Eliminar tablero"
+        message={`¿Estás seguro de que deseas eliminar "${boardToDelete?.nombre}"? Esta acción no se puede deshacer.`}
+        onCancel={cancelDelete}
+        onConfirm={confirmDelete}
+      />
+      
       <FlatList
         data={boards}
         // keyExtractor es crucial para el rendimiento
@@ -68,24 +102,29 @@ export default function Tableros() {
             board={item}
             onEdit={() => handleEdit(item)}
             onDelete={() => handleDelete(item)}
+            onPress={() => handleViewDetails(item)}
           />
         )}
         
         // ListHeaderComponent pone el título en la parte superior de la lista
         ListHeaderComponent={() => (
-          <View>
-            <Text className="text-3xl font-bold text-text-title">
+          <View className="mb-5">
+            <Text className="text-3xl font-bold text-gray-900 mb-1">
               Tableros Eléctricos
+            </Text>
+            <Text className="text-sm text-gray-500">
+              Gestiona tus tableros eléctricos
             </Text>
           </View>
         )}
         
         // ItemSeparatorComponent es la forma correcta de añadir un "gap"
-        ItemSeparatorComponent={() => <View className="h-4" />}
+        ItemSeparatorComponent={() => <View className="h-5" />}
         
         // Añadimos padding al contenedor de la lista
         contentContainerStyle={{
           paddingHorizontal: 4, // Ajusta tu padding horizontal aquí
+          paddingTop: 8,
           paddingBottom: 104, // Padding en el fondo
         }}
         

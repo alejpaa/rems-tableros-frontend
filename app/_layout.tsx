@@ -34,6 +34,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="editar-tablero/[id]" options={{headerTitle: ''}} />
+          <Stack.Screen name="detalle-tablero/[id]" options={ {headerShown: false}}/>
         </Stack>
         <StatusBar style={statusBarStyle} />
       </ThemeProvider>

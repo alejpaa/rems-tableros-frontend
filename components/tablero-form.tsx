@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native';
-
 import type { Tablero } from '@/types/tablero';
+import { Picker } from '@react-native-picker/picker';
+import { useEffect, useMemo, useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export type TableroFormSubmitPayload = Omit<Tablero, 'id'>;
 
@@ -14,6 +14,16 @@ const INITIAL_FORM_STATE: Record<keyof TableroFormSubmitPayload, string> = {
   ano_fabricacion: '',
   ano_instalacion: '',
 };
+
+const ESTADO_OPTIONS = ['Operativo', 'Mantenimiento', 'Fuera de Servicio'];
+// Genera una lista de años (ej: 2025, 2024, ..., 1980)
+const CURRENT_YEAR = new Date().getFullYear();
+const START_YEAR = 1980;
+const YEARS = Array.from(
+  { length: CURRENT_YEAR - START_YEAR + 1 },
+  (_, i) => String(CURRENT_YEAR - i)
+);
+
 
 export type TableroFormProps = {
   title?: string;
@@ -40,12 +50,17 @@ const sanitizeInitialValues = (
     string | number,
   ][];
 
-  entries.forEach(([key, value]) => {
+entries.forEach(([key, value]) => {
     if (value === undefined || value === null) {
       return;
     }
-
-    base[key] = String(value);
+    if (key === 'estado') {
+      base[key] = ESTADO_OPTIONS.includes(String(value))
+        ? String(value)
+        : 'Operativo';
+    } else {
+      base[key] = String(value);
+    }
   });
 
   return base;
@@ -58,6 +73,8 @@ const parseNumberField = (value: string) => {
 
 const REQUIRED_MESSAGE = 'Nombre y ubicación son obligatorios';
 const NUMBER_MESSAGE = 'Verifica que capacidad y años sean números válidos';
+// NUEVO: Mensaje de validación para los años
+const YEAR_VALIDATION_MESSAGE = 'El año de instalación no puede ser anterior al de fabricación.';
 
 export const TableroForm = ({
   title,
@@ -93,6 +110,12 @@ export const TableroForm = ({
 
     if (capacidad === null || fabricacion === null || instalacion === null) {
       Alert.alert('Error', NUMBER_MESSAGE);
+      return;
+    }
+
+    // Comprueba que el año de instalación no sea anterior al de fabricación
+    if (instalacion < fabricacion) {
+      Alert.alert('Error', YEAR_VALIDATION_MESSAGE);
       return;
     }
 
@@ -154,30 +177,38 @@ export const TableroForm = ({
       />
 
       <Text className="font-medium">Estado</Text>
-      <TextInput
-        className="border border-border p-3 rounded-lg mb-4"
-        value={form.estado}
-        onChangeText={value => update('estado', value)}
-        placeholder="Operativo / En mantenimiento"
-      />
+      <View className="border border-border rounded-lg mb-4 overflow-hidden">
+          <Picker
+          className={Platform.OS === 'ios' ? 'h-12' : 'm-[-110]'}
+            selectedValue={form.estado}
+            onValueChange={itemValue => update('estado', itemValue)}>
+            {ESTADO_OPTIONS.map(opt => (
+              <Picker.Item key={opt} label={opt} value={opt} />
+            ))}
+          </Picker>
+      </View>
 
       <Text className="font-medium">Año de fabricación</Text>
-      <TextInput
-        className="border border-border p-3 rounded-lg mb-4"
-        keyboardType="numeric"
-        value={form.ano_fabricacion}
-        onChangeText={value => update('ano_fabricacion', value)}
-        placeholder="Ej: 2020"
-      />
+      <View className="border border-border rounded-lg mb-4 overflow-hidden">
+          <Picker
+            selectedValue={form.ano_fabricacion}
+            onValueChange={itemValue => update('ano_fabricacion', itemValue)}>
+            {YEARS.map(year => (
+              <Picker.Item key={year} label={year} value={year} />
+            ))}
+          </Picker>
+      </View>
 
       <Text className="font-medium">Año de instalación</Text>
-      <TextInput
-        className="border border-border p-3 rounded-lg mb-4"
-        keyboardType="numeric"
-        value={form.ano_instalacion}
-        onChangeText={value => update('ano_instalacion', value)}
-        placeholder="Ej: 2021"
-      />
+      <View className="border border-border rounded-lg mb-4 overflow-hidden">
+          <Picker
+            selectedValue={form.ano_instalacion}
+            onValueChange={itemValue => update('ano_instalacion', itemValue)}>
+            {YEARS.map(year => (
+              <Picker.Item key={year} label={year} value={year} />
+            ))}
+          </Picker>
+      </View>
 
       <TouchableOpacity
         className="bg-blue-600 py-3 rounded-lg mt-6"

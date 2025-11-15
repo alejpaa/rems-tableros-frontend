@@ -179,7 +179,7 @@ export const TableroForm = ({
                             {/* Campo Estado */}
                             <View className="mb-4">
                                 <Text className="text-sm font-semibold text-gray-700 mb-2">Estado *</Text>
-                                <View className="bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm flex-row items-center px-4">
+                                <View className="bg-white border border-gray-300 rounded-xl shadow-sm flex-row items-center px-4">
                                     <Ionicons name="pulse-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker
@@ -209,7 +209,7 @@ export const TableroForm = ({
                             {/* Campo Año de Fabricación */}
                             <View className="mb-4">
                                 <Text className="text-sm font-semibold text-gray-700 mb-2">Año de Fabricación *</Text>
-                                <View className="bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm flex-row items-center px-4">
+                                <View className="bg-white border border-gray-300 rounded-xl shadow-sm flex-row items-center px-4">
                                     <Ionicons name="construct-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker
@@ -233,7 +233,7 @@ export const TableroForm = ({
                             {/* Campo Año de Instalación */}
                             <View className="mb-4">
                                 <Text className="text-sm font-semibold text-gray-700 mb-2">Año de Instalación *</Text>
-                                <View className="bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm flex-row items-center px-4">
+                                <View className="bg-white border border-gray-300 rounded-xl shadow-sm flex-row items-center px-4">
                                     <Ionicons name="calendar-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker

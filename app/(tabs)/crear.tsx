@@ -4,7 +4,7 @@ import { Screen } from '@/components/Screen';
 import {
   TableroForm,
   type TableroFormSubmitPayload,
-} from '@/components/tablero-form';
+} from '@/components/form/tablero-form';
 import { useTableros } from '@/hooks/useTableros';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';

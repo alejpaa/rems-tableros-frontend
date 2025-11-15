@@ -2,7 +2,7 @@ import { getTablero } from '@/api/tableros.service';
 import {
   TableroForm,
   type TableroFormSubmitPayload,
-} from '@/components/tablero-form';
+} from '@/components/form/tablero-form';
 import { useTableros } from '@/hooks/useTableros';
 import type { Tablero } from '@/types/tablero';
 import { useQuery } from '@tanstack/react-query';

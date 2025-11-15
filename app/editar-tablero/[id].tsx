@@ -1,8 +1,7 @@
 import { getTablero } from '@/api/tableros.service';
-import { Screen } from '@/components/Screen';
 import {
-    TableroForm,
-    type TableroFormSubmitPayload,
+  TableroForm,
+  type TableroFormSubmitPayload,
 } from '@/components/tablero-form';
 import { useTableros } from '@/hooks/useTableros';
 import type { Tablero } from '@/types/tablero';
@@ -87,5 +86,7 @@ export default function EditarTableroScreen() {
     );
   };
 
-  return <Screen>{renderContent()}</Screen>;
+  return <View className="flex-1 bg-background-primary px-6 pt-4">
+    {renderContent()}
+    </View>
 }

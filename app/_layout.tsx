@@ -33,6 +33,7 @@ export default function RootLayout() {
         <ThemeProvider value={navTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="editar-tablero/[id]" options={{headerTitle: ''}} />
         </Stack>
         <StatusBar style={statusBarStyle} />
       </ThemeProvider>

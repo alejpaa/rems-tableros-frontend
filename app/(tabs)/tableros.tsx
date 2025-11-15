@@ -94,7 +94,6 @@ const confirmDelete = async () => {
       
       <FlatList
         data={boards}
-        // keyExtractor es crucial para el rendimiento
         keyExtractor={(item: Tablero) => item.id.toString()}
         
         renderItem={({ item }) => (
@@ -106,7 +105,7 @@ const confirmDelete = async () => {
           />
         )}
         
-        // ListHeaderComponent pone el título en la parte superior de la lista
+        //título en la parte superior de la lista
         ListHeaderComponent={() => (
           <View className="mb-5">
             <Text className="text-3xl font-bold text-gray-900 mb-1">
@@ -118,19 +117,17 @@ const confirmDelete = async () => {
           </View>
         )}
         
-        // ItemSeparatorComponent es la forma correcta de añadir un "gap"
+        // ItemSeparatorComponent
         ItemSeparatorComponent={() => <View className="h-5" />}
-        
-        // Añadimos padding al contenedor de la lista
+
         contentContainerStyle={{
-          paddingHorizontal: 4, // Ajusta tu padding horizontal aquí
+          paddingHorizontal: 4,
           paddingTop: 8,
-          paddingBottom: 104, // Padding en el fondo
+          paddingBottom: 104,
         }}
         
         showsVerticalScrollIndicator={false}
 
-        // 3. Bonus: Habilitamos "Pull to Refresh"
         onRefresh={refresh} // La función que se llama al deslizar
         refreshing={loading} // Muestra el indicador de carga si loading es true
         

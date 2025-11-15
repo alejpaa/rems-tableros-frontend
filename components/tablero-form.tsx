@@ -22,7 +22,7 @@ const ESTADO_OPTIONS = [
   { label: 'Fuera de Servicio', value: 'Fuera de Servicio', icon: 'close-circle' as const, color: '#DC2626' },
 ];
 
-// Genera una lista de años (ej: 2025, 2024, ..., 1980)
+// lista de años
 const CURRENT_YEAR = new Date().getFullYear();
 const START_YEAR = 1980;
 const YEARS = Array.from(
@@ -79,7 +79,6 @@ const parseNumberField = (value: string) => {
 
 const REQUIRED_MESSAGE = 'Todos los campos son obligatorios excepto la marca';
 const NUMBER_MESSAGE = 'Verifica que capacidad y años sean números válidos';
-// NUEVO: Mensaje de validación para los años
 const YEAR_VALIDATION_MESSAGE = 'El año de instalación no puede ser anterior al de fabricación.';
 
 export const TableroForm = ({

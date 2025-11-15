@@ -4,14 +4,12 @@ import { BottomTabBar } from '@react-navigation/bottom-tabs';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
-// 1. IMPORTA EL HOOK
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { appColors } from '@/theme/colors';
 
 export default function TabLayout() {
   const palette = appColors;
-  // 2. OBTÉN EL INSET INFERIOR
   const { bottom } = useSafeAreaInsets();
 
   return (
@@ -19,10 +17,8 @@ export default function TabLayout() {
       tabBar={(props) => (
         <View style={{
             position: 'absolute',
-            // 3. APLICA EL INSET + TU MARGEN
             // Si no hay barra de navegación (ej. iOS con gestos), bottom será 0.
-            // Si hay barra (ej. Android), bottom será su altura.
-            bottom: bottom === 0 ? 24 : bottom, 
+            bottom: bottom === 0 ? 24 : bottom,
             left: 0,
             right: 0,
             alignItems: 'center',
@@ -61,14 +57,14 @@ export default function TabLayout() {
         tabBarActiveTintColor: palette.primary.DEFAULT,
         tabBarInactiveTintColor: palette.text.muted,
         tabBarItemStyle: {
-          justifyContent: 'center', // Centra verticalmente
-          alignItems: 'center',    // Centra horizontalmente
-          height: 64, // Asegúrate de que use toda la altura
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 64,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '500',
-          marginTop: -2 //cambie
+          marginTop: -2
         },
         tabBarIconStyle: {
           marginTop: 4,

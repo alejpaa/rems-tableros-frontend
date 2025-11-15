@@ -163,7 +163,6 @@ export default function DetalleTablero() {
           </View>
         </View>
 
-        {/* Botones de acción */}
         <View className="flex-row gap-3 mt-6">
           <TouchableOpacity
             className="flex-1 bg-blue-600 py-4 rounded-xl flex-row items-center justify-center"

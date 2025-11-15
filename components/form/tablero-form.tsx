@@ -183,7 +183,7 @@ export const TableroForm = ({
                                     <Ionicons name="pulse-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker
-                                            style={{ height: 50 }}
+                                            style={{ height: 50 ,color: '#000000'}}
                                             selectedValue={values.estado}
                                             onValueChange={(v) => setFieldValue("estado", v)}
                                         >
@@ -213,7 +213,7 @@ export const TableroForm = ({
                                     <Ionicons name="construct-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker
-                                            style={{ height: 50 }}
+                                            style={{ height: 50 ,color: '#000000'}}
                                             selectedValue={values.ano_fabricacion}
                                             onValueChange={(v) => setFieldValue("ano_fabricacion", v)}
                                         >
@@ -237,7 +237,7 @@ export const TableroForm = ({
                                     <Ionicons name="calendar-outline" size={20} color="#6B7280" style={{ marginRight: 12 }} />
                                     <View className="flex-1">
                                         <Picker
-                                            style={{ height: 50 }}
+                                            style={{ height: 50,color: '#000000'}}
                                             selectedValue={values.ano_instalacion}
                                             onValueChange={(v) => setFieldValue("ano_instalacion", v)}
                                         >
